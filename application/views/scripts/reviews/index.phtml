@@ -1,0 +1,23 @@
+<div class="row-fluid">
+<div class="span12">
+ <section class="okapi-widget">
+ <?php if($this->showForm==true){ ?>
+ 	  
+<div class="okapi-widget-title"><img src="<?php echo $this->baseUrl();?>img/icons2/pen.png" class="okapi-widget-icon"><span>Send Your Comments &amp; Reviews About This Project</span></div>
+          
+             
+            <div class="okapi-widget-content okapi-form-freeSpace" id="ccdis">
+            <form  class="form-horizontal" id="cr" name="cr" action="#" onsubmit="<?php echo $this->aj('ccdis',$this->baseUrl().'auth/in','cr');?>" method="post" > 
+            <textarea rows="10" cols="5" class="span12" name="commentval" id="commentval" ></textarea>
+            <br/>
+             <input type="hidden" name="target" value="comments" />
+             <input type="hidden" name="pid" value="<?php echo $this->project;?>" />
+            <input type="submit" value="Submit Comments" required="yes" class="btn" />
+            </form>
+            </div>
+            
+  <?php } ?>
+ 
+ </section>
+ </div>
+ </div>

@@ -1,0 +1,70 @@
+<?php
+$acUser = new Zend_Session_Namespace(); 
+$userObj = new Application_Model_DbTable_Users;
+		$uRes = $userObj->getUser($acUser->userID);
+?> 
+
+
+<body>
+<?php
+if($this->letItFade==true){
+?>
+<script>
+$(document).ready(function(){ $("#top-bar-sec").mouseleave(function(){ $(this).fadeTo("slow",0.20); }); $("#top-bar-sec").mouseenter(function(){ $(this).fadeTo("slow",1); }); });
+</script>
+<?php } ?>
+<div class="container-fluid">
+
+<!-- Top Header Starts -->
+<div class="row-fluid" id="top-bar-sec" <?php if($this->letItFade==true){ echo ' style="opacity:0.20" ';}?> >
+  <div class="span12" style="margin-top:-9px !important;">
+    <div class="header-top">
+      <div class="header-wrapper"><a href="#" class="okapi-logo"><img src="<?php echo $this->baseUrl();?>img/okapi-logo.png" style="margin-top:13px;" alt="okapi"></a>
+        <div class="header-right"> 
+          <!-- <div class="header-divider">&nbsp;</div>-->
+          
+          <?php if (Zend_Auth::getInstance()->hasIdentity()) { ?>
+          <div class="search-panel header-divider"> 
+            <!--<div class="search-box"><img src="img/icons/zoom.png" alt="Search">
+                <form action="" method="post">
+                  <input type="text" name="search" placeholder="search"/>
+                </form>
+              </div>-->
+            <h4> <strong style="color:#0096DB; font-size:11px;"><?php echo $acUser->email;?> </strong>| Project Previewer</h4>
+          </div>
+          <div class="user-panel header-divider">
+            <div class="user-info"><img src="<?php echo $this->baseUrl();?>img/icons/user.png" alt=""><a href="#" title="<?php echo $uRes->fullName;?>"><?php
+			$fn = $uRes->fullName; 
+			if(strlen($fn) > 10){ echo substr($fn,0,10) . "..."; }
+			else { echo $fn;}
+			 
+			 ?></a></div>
+            <div class="user-dropbox">
+              <ul>
+                
+                <?php if($acUser->level == "admin"){ ?>
+                
+                <li class="clients"><a href="<?php echo $this->baseUrl();?>manage/clients" >Manage Clients</a></li>
+                <li class="project-man"><a href="<?php echo $this->baseUrl();?>manage/projects">Manage Projects</a></li>
+               <!-- <li class="reviews"><a href="<?php echo $this->baseUrl();?>reviews">Comments &amp; Reviews</a></li>-->
+                <li> <hr/> </li>
+                
+                <?php } ?>
+                
+                <li class="projects"><a href="<?php echo $this->baseUrl();?>preview" <?php if($this->noAJpre == false){ echo 'rel="#overlay"';} ?> >Preview Projects</a></li>
+                <li class="settings"><a href="<?php echo $this->baseUrl();?>auth/settings" <?php if($this->noAJsettings == false){ echo 'rel="#overlay"';} ?>>Account Settings</a></li>
+               <!-- <li class="help"><a href="<?php echo $this->baseUrl();?>help" <?php if($this->noAJhelp == false){ echo 'rel="#overlay"';} ?>>Help &amp; FAQs</a></li>-->
+                <li class="logout"><a href="<?php echo $this->baseUrl();?>auth/out">Logout</a></li>
+              </ul>
+            </div>
+          </div>
+          <?php } ?>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Top Header Ends --->
+
+<div class="row-fluid" style="min-height:500px;" id="fc">

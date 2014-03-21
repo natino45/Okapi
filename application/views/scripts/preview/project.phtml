@@ -1,0 +1,24 @@
+
+<?php
+if($this->display =='ifc'){
+	echo $this->projectContent;
+	}
+else{
+?>
+
+<iframe src="<?php echo $this->baseUrl();?>preview/project/v/<?php echo $this->projectID;?>/target/iframe/f/" frameborder="0" class="span12"  allowtransparency="1" scrolling="auto" name="p-box" style=" overflow:auto; height: 95%; " id="preview" ></iframe> 
+
+<div style="clear:both;"></div> 
+
+<div class="well" style="margin-top:5px; padding-top:2px; padding-bottom:2px; margin-bottom:0px !important;">
+
+<div  class=" pull-right" >
+<a  class="btn btn-small btn-success"  href="<?php echo $this->baseUrl();?>reviews/read/g/project/t/<?php echo $this->projectID;?>" rel="#overlay"   > <img src="<?php echo $this->baseUrl();?>img/icons2/binoculars.png" width="18" /> &nbsp; View  Comments and Reviews  About This Project <?php echo $this->numberOfComments;?> </a>
+ 
+<a  class="btn btn-small btn-info"   href="<?php echo $this->baseUrl();?>reviews/<?php echo $this->projectID;?>" rel="#overlay"   > <img src="<?php echo $this->baseUrl();?>img/icons2/pen.png" width="18" /> &nbsp; Send Your Comments & Reviews About This Project </a>
+</div>
+<div style="clear:both;"></div> 
+
+</div>
+<?php
+}

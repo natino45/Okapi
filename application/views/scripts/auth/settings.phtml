@@ -1,0 +1,123 @@
+<?php
+$acUser = new Zend_Session_Namespace(); 
+?> 
+<div class="row-fluid">
+        <div class="span6">
+          <section class="okapi-widget">
+          <div class="okapi-widget-title"><img src="<?php echo $this->baseUrl();?>img/icons/key.png" class="okapi-widget-icon"><span>Update Credentials</span></div>
+          
+            
+            
+            
+            
+            
+            <div class="okapi-widget-content okapi-form-freeSpace">
+          <form class="form-horizontal" id="credInfo" name="credInfo" action="#" onsubmit="<?php echo $this->aj('dis1',$this->baseUrl().'auth/in','credInfo');?>" method="post">
+          <input type="hidden" name="target" value="cred" />
+            <fieldset>
+            <div class="okapi-form-button">
+              
+              <div class="control-group"> 
+            
+                <input class="span12" type="text" disabled  value="<?php echo $acUser->email;?>" title="<?php echo $acUser->email;?>" />
+              
+            </div>
+            
+                          <div class="control-group">
+              <label class="control-label" >Old Password:</label>
+              <div class="controls">
+                <input class="span12" type="password" name="old-pass" required="yes"   placeholder="" />
+              </div>
+            </div>
+
+              
+              
+                          <div class="control-group">
+              <label class="control-label" >New Password:</label>
+              <div class="controls">
+                <input class="span12" type="password" name="new-pass" id="new-pass"  required="yes"   placeholder="" />
+              </div>
+            </div>
+
+              
+              
+                          <div class="control-group">
+              <label class="control-label" >Confirm Password:</label>
+              <div class="controls">
+                <input class="span12" onchange="checkVal_e();" type="password" name="confirm-pass" id="confirm-pass" required="yes"    placeholder="" />
+              </div>
+            </div>
+
+              
+              
+              <div class="okapi-alert-button" >
+                <button  class="btn btn-info span5" >Save Changes</button>
+              </div>
+              
+              <div id="dis1" class="span12"></div>
+               
+            </div>
+            </fieldset>
+          </form>
+          </div>
+          </section>
+        </div>
+         <script>
+	  function checkVal_e(){
+		  var passwordF = getId('new-pass');
+		  var passwordC = getId('confirm-pass');
+		  if(passwordF.value != passwordC.value){ passwordC.value=""; }
+		  }
+	  </script>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <div class="span6">
+          <section class="okapi-widget">
+          <div class="okapi-widget-title"><img src="<?php echo $this->baseUrl();?>img/icons/id.png" class="okapi-widget-icon"><span>Update Personal Details</span></div>
+         
+           <div class="okapi-widget-content okapi-form-freeSpace  okapi-date-box">
+          <form class="form-horizontal" action="#" name="p-f" id="p-f" onsubmit="<?php echo $this->aj('dis2',$this->baseUrl().'auth/in','p-f');?>" method="post">
+          <input type="hidden" name="target" value="personal" />
+          <fieldset>
+          
+          <p>
+            <label class="3" for="f-name">Full Name:</label> 
+              <input  required="yes" value="<?php echo $this->fName;?>"  name="f-name" class="span12" type="text">
+          </p>
+              
+          <p>
+            <label class="3" for="notes">Notes:</label> 
+            <textarea id="textarea" name="notes" class="span12" rows="6"> <?php echo $this->notes;?></textarea>
+          </p>
+              
+          
+          <div class="okapi-alert-button">
+                <button  class="btn btn-info span5" >Save Changes</button>
+              </div>
+              <div id="dis2" class="span12"></div>
+          </fieldset>
+          </form>
+          </div>
+         
+         
+          </section>
+        </div>
+      
+      
+      
+      </div>

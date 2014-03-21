@@ -1,0 +1,169 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Login | Okapi Project Preview System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Okapi Project Previewing System">
+<meta name="copyright" content="Copyright (c) 2014 Nathaniel Ashiagbor" />
+<meta name="author" content="Nathaniel Ashiagbor">
+<meta name="robots" content="noindex,nofollow" /> 
+<link class="theme-css" href="<?php echo $this->baseUrl();?>css/okapi-white.css?v7" rel="stylesheet">  
+<link href="<?php echo $this->baseUrl();?>css/validationEngine.jquery.css" rel="stylesheet" type="text/css"> 
+<link href="<?php echo $this->baseUrl();?>css/login/normalize.css" rel="stylesheet"/>
+<link href="<?php echo $this->baseUrl();?>css/login/main.css" rel="stylesheet"/>
+<script type="text/javascript" src="<?php echo $this->baseUrl();?>js/jquery.min.js"></script> 
+<script type="text/javascript" src="<?php echo $this->baseUrl();?>js/jquery.tools.min.js"></script>
+
+<script type="text/javascript" src="<?php echo $this->baseUrl();?>js/okapi.js"></script>
+<!--[if IE 8]><link href="<?php echo $this->baseUrl();?>css/ie8.css" rel="stylesheet"><![endif]--><!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]--><!--[if gte IE 9]><style type="text/css">.gradient{filter:none}</style><![endif]-->
+
+ <script>
+ function icheck(){
+ if (window.self == window.top) { 
+} else {
+	parent.location.reload();
+}
+ 	}
+	window.onload=icheck();
+ </script>
+</head>
+<body>
+<!-- <div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="okapi-login-message">  
+      </div>
+    </div>
+  </div>
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="row-fluid">
+        <div class="span6">
+          <div class="okapi-login-info"><img style="margin-top:27px;" src="<?php echo $this->baseUrl();?>img/splash.png"   alt="image"></div>
+        </div>
+        <div class="span6">
+          <div class="okapi-login">
+            <h3>Secured Access:</h3>
+            <form action="" method="post" class="okapi">
+            <?php
+			if($this->valid == "noooo"){
+				?>
+                <div class="alert alert-error"><a class="close" data-dismiss="alert" href="#">×</a><img src="<?php echo $this->baseUrl();?>img/icons2/cross.png" width="20" /> &nbsp;
+<strong><?php echo $this->errorForm;?> </strong> </div>
+                <?php
+				}
+			?>
+              <label>Email Address:</label>
+              <input type="email" value="" name="user-e" placeholder="example@email.com"  class="span12 okapi-fluid-input validate[required]">
+              <label>Password:</label>
+              <input type="password"  name="user-p" placeholder="enter password"  class="span12 okapi-fluid-input validate[required]" value="">
+              <ul class="okapi-login-action">
+                <li>
+                  <input type="submit" class="btn span4" value="Login">
+                  <div class="pull-right">  </div>
+                </li>
+              </ul>
+              <label><a rel="#overlay" href="<?php echo $this->baseUrl();?>auth/recover">Can't access your account?</a></label>
+            </form>
+            <p style="font-size:10px;">IPPS ver. 1.68 | &copy; 2012 Infosapp Limited. All Rights Reserved.<br/>
+Unauthorized Access prohibited. Violators will be prosecuted!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+
+
+
+
+
+
+
+
+<div class="lg-wrapper" >
+     <div class="lg-container">
+     
+     <div class="lg-inner">
+     
+     <div class="lg-logo"><img src="<?php echo $this->baseUrl();?>img/login/ipps-logo.png" /></div>
+     <div class="lg-box">
+     <form action="" method="post" class="lg-form okapi">
+     
+     <p><label>Email Address</label>
+     <input type="text" name="user-e" placeholder="example@email.com"  class=" validate[required]" />
+     </p>
+     <p><label>Password</label>
+     <input type="password"  name="user-p" placeholder="enter password"   class=" validate[required]" /></p>
+     
+     <p class="pull-right"><a  rel="#overlay" href="<?php echo $this->baseUrl();?>auth/recover">Forgotten password?</a></p>
+     
+     <p class="pull-left"><input type="submit" class="submit-btn" value="&nbsp;" /></p>
+     <div class="clear"></div>
+     </form>
+      <?php
+      if($this->valid == "noooo"){
+        ?>
+                <div class="alert alert-error"><a class="close" data-dismiss="alert" href="#">×</a><img src="<?php echo $this->baseUrl();?>img/icons2/cross.png" width="20" /> &nbsp;
+<strong><?php echo $this->errorForm;?> </strong> </div>
+                <?php
+        }
+      ?>
+     </div>
+     
+     </div>
+     
+     
+     
+     <div class="lg-footer">
+     <p class="left">Okapi Beta version  &nbsp; | &nbsp;  All Rights Reserved. Unauthorized Access prohibited. Violators will be prosecuted!
+</p> 
+     </div>
+     </div>
+     
+     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="apple_overlay" id="overlay">
+  <!-- the external content is loaded inside this tag -->
+  <div class="contentWrap"><div style="text-align:center;"><img src="<?php echo $this->baseUrl();?>img/loading.gif" /></div></div>
+</div>  
+<script type="text/javascript" src="<?php echo $this->baseUrl();?>js/jquery.validationEngine.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl();?>js/jquery.validationEngine-en.js"></script>
+<script type="text/javascript">jQuery(function(){jQuery(".okapi").validationEngine("attach",{promptPosition:"topLeft",scroll:false})});</script>
+<script> 
+   jQuery(function() { 
+    // if the function argument is given to overlay,
+    // it is assumed to be the onBeforeLoad event listener
+    jQuery("a[rel]").overlay({
+        mask: '#1D72A3',
+        effect: 'apple',
+        onBeforeLoad: function() {
+            // grab wrapper element inside content
+            var wrap = this.getOverlay().find(".contentWrap");
+            // load the page specified in the trigger
+            wrap.load(this.getTrigger().attr("href"));
+        }
+    });
+});
+	
+</script>
+</body>
+</html>

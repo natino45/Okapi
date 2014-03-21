@@ -1,0 +1,44 @@
+<div class="row-fluid">
+        <div class="span12">
+        
+        <?php if($this->success){?>
+        
+          <section class="okapi-widget">
+          <div class="okapi-widget-title"><img src="<?php echo $this->baseUrl();?>img/icons/microhpone.png" class="okapi-widget-icon"><span>Comments &amp; Reviews: <small style="font-size:11px; color:#39F;"><?php echo $this->targetName;?></small> </span></div>
+          <div class="okapi-widget-content">
+            
+           <?php if(count($this->projectsReviews) > 0) {
+			   $uObj = new Application_Model_DbTable_Users;
+			   $projectObj = new Application_Model_DbTable_Projects;
+			   foreach($this->projectsReviews as $comment):
+			   $userInfo = $uObj->getUser($comment->user_ID);
+			   $pinfo = $projectObj->getById($comment->project_ID);
+			    ?>
+            <div class="okapi-chat"> 
+              <div class="text">
+                <div class="status"><i class="icon-user"></i> <span class="user"><?php echo $userInfo->fullName." - ".$userInfo->email;?></span><span class="date"><?php echo $this->dateFormat($comment->dateCreated);?></span></div>
+                
+                 
+                <p style="font-size:11px;"><?php if($this->targetType =="client"){ ?>  <span class="label label-info"><?php echo $pinfo->projectName;?></span> <?php } ?><?php echo nl2br($comment->reviewContent);?></p> 
+              </div>
+            </div>
+              
+              <?php endforeach;  } else{ ?>   
+              
+              
+              
+               
+      <div class="alert alert-info"><img src="<?php echo $this->baseUrl();?>img/icons2/info.png" width="20" />
+<strong>Empty !</strong> &nbsp; No Comments and Reviews Available at the moment. </div> 
+      <?php } ?>  
+               
+              
+          </div>
+          </section>
+      <?php } else{ ?>    
+      <div class="alert alert-info"><img src="<?php echo $this->baseUrl();?>img/icons2/info.png" width="20" />
+<strong>Empty !</strong> &nbsp; No Comments and Reviews Available at the moment. </div> 
+      <?php } ?>
+          
+        </div>
+</div>

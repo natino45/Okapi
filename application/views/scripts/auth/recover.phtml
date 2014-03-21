@@ -1,0 +1,37 @@
+<div class="row-fluid">
+<div class="span12">
+ <section class="okapi-widget">
+ 
+ <div class="okapi-widget-title"><img src="<?php echo $this->baseUrl();?>img/icons/key.png" class="okapi-widget-icon"><span>Recover Your Access Details</span></div>
+          
+  
+
+   <div class="okapi-widget-content okapi-form-freeSpace" >
+    <p class="alert alert-info">If you are unable to login or you cannot remember your password, enter your email address below to get a new password emailed to you.<br/>
+If recovery is successful close this window and login with the new password you receive.</strong></p>
+            <form  class="form-horizontal" id="cr" name="cr" action="#" onsubmit="<?php echo $this->aj('cr',$this->baseUrl().'auth/in','cr');?>" method="post" > 
+        
+            <label> Enter Your Email Address: </label>
+               <input type="email" value="" name="email" />
+             <input type="hidden" name="target" value="recover" />             
+             
+            <input type="submit" value="Recover Access Details" required="yes" class="btn" />
+            </form>
+            </div>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ </section>
+ </div>
+ </div>

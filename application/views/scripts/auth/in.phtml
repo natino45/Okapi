@@ -1,0 +1,22 @@
+ <br/>
+  <section id="notification">
+  <div class="row-fluid">
+ <?php
+ if($this->success == true){?>
+<div class="alert alert-success">
+<img src="<?php echo $this->baseUrl();?>img/icons2/checkmark2.png" width="20" />
+<?php if(!empty($this->output)){ echo $this->output;}else { ?>
+<strong>Operation Successful !</strong> &nbsp; The operation requested was successfully performed.  <?php } ?></div>
+<div style="text-align:center;">
+<?php if($this->noreload != true) echo '<img src="'.$this->baseUrl().'img/loading.gif" width="50" />'; ?>
+</div>
+
+ <?php if($this->noreload != true) $this->phpJs("setTimeout('document.location.reload()',2000)");
+  }else {
+	 ?>
+  <div class="alert alert-error"><img src="<?php echo $this->baseUrl();?>img/icons2/cross.png" width="20" />
+<strong>Error !</strong> &nbsp; An error occured while performing the requested operation. Please ensure all required conditions are met. </div>   
+     <?php
+	 }
+?>
+</div></section>

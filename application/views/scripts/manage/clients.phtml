@@ -1,0 +1,242 @@
+<?php
+$acUser = new Zend_Session_Namespace(); 
+?>
+<div class="row-fluid">
+<div class="span12">
+ <section class="okapi-widget">
+ 
+ <?php
+ switch($this->dis){
+	 case "attach":
+	 ?>
+<div class="okapi-widget-title"><img src="<?php echo $this->baseUrl();?>img/icons/add.png" class="okapi-widget-icon"><span>Attach Projects To Client:<strong style="color:#06F;font-size:10px;"> <?php echo $this->clientName. " - ".$this->clientEmail;?></strong></span></div><div class="okapi-widget-content okapi-form-freeSpace" id="dis1">
+<form name="projectAttach" id="projectAttach" method="post" action="#" onsubmit="<?php echo $this->aj('disatt',$this->baseUrl().'auth/in','projectAttach');?>" >
+            <?php
+			$attCheckObj = new Application_Model_DbTable_ProjectClients;
+	 foreach($this->projects as $c){
+		 $chk = $attCheckObj->check($this->userID, $c->id);
+		 ?>
+         <div class="control-group"> 
+              <div class="controls well">
+                <label class="checkbox">
+                  <input class="s" id="c<?php echo $c->id;?>" <?php if($chk) echo 'checked'; ?> name="itemid[]" type="checkbox" value="<?php echo $c->id;?>"> <?php echo $c->projectName;?></label>
+              </div>
+            </div>
+
+         <?php
+		 }
+	 ?>
+      <input type="hidden" name="target" value="pattach" />
+     <input type="hidden" value="<?php echo $this->userID;?>" name="uid" />
+     <input type="hidden" id="selectedOptions" value="" name="selectedOptions" />
+     <input type="submit" value="Submit Projects" class="btn" />
+     </form>
+     <div id="disatt"></div>
+     </div>
+     <script>
+	     function showValues() {
+      var str = $(".s:checkbox").serialize();
+	  str = str.replace(/itemid%5B%5D=/g,',')
+	  str = str.replace(/&/g,'');
+      $("#selectedOptions").val(str);
+    }
+    $(".s:checkbox").click(showValues); 
+     </script>
+     <?php
+	 break;
+	 
+	 
+	 case "del":
+	 ob_clean();
+	 echo '
+					<td colspan="20">
+					<div class="alert alert-success">
+<img src="'.$this->baseUrl().'img/icons2/checkmark2.png" width="20" />
+<strong>Client Successfully Removed!</strong> </div>
+					</td>
+					'; 
+					exit;
+	 break;
+	 
+	 
+	 case "new":
+	?>
+	  
+<div class="okapi-widget-title"><img src="<?php echo $this->baseUrl();?>img/icons/add.png" class="okapi-widget-icon"><span>Add New Client</span></div>
+          
+             
+            <div class="okapi-widget-content okapi-form-freeSpace" id="dis1">
+  <form class="form-horizontal" id="credInfo" name="credInfo" action="#" onsubmit="<?php echo $this->aj('dis1',$this->baseUrl().'auth/in','credInfo');?>" method="post">
+          <input type="hidden" name="target" value="nclient" />
+            <fieldset> 
+               
+              
+                <div class="control-group">
+              <label class="control-label" >Email Address:</label>
+              <div class="controls">
+                <input class="span12" type="email" name="email" id="email"  required="yes"   placeholder="" />
+              </div>
+            </div>
+ 
+                <div class="control-group">
+              <label class="control-label" >Full Name:</label>
+              <div class="controls">
+                <input class="span12" type="text" name="f-name" id="f-name"  required="yes"   placeholder="" />
+              </div>
+            </div>
+   
+              
+              <div class="okapi-alert-button" >
+                <button  class="btn btn-info span5" >Submit</button>
+              </div>
+                
+                
+            </fieldset>
+          </form>
+          </div> 
+	 
+	 <?php
+	 break;
+	 default:
+ ?>
+          <div class="okapi-widget-title"><img src="<?php echo $this->baseUrl();?>img/icons/messenger.png" class="okapi-widget-icon"><span>Clients / Admins</span>       
+          <div class="span2" style="float:right; margin-bottom:0px; margin-top:5px;"><a class="btn btn-medium btn-success span12" href="<?php echo $this->baseUrl();?>manage/clients/task/new" rel="#overlay"><i class="icon-plus"></i> Add New Clients</a> </div>
+              </div>
+          <div class="okapi-widget-content">
+          
+          
+          
+          
+            <table class="table datatable table-striped table-bordered">
+              <colgroup>
+              <col class="okapi-col-1">
+              <col class="okapi-col-0">
+              <col class="okapi-col-1">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th width="16" ></th>
+                  <th >Email</th>
+                  <th>Full Name</th>
+                  <th>Projects</th>  
+                  <th>Added On</th>
+                  <th>Last Login</th>
+                  <th >Options</th>
+                </tr>
+              </thead>
+              <tbody>
+              
+              
+              
+              
+              <?php
+			  if($this->clients){
+				  $pObj = new Application_Model_Project_GetAttached;
+				  $proObj = new Application_Model_DbTable_Projects;
+				foreach($this->clients as $clients){
+					?>
+                    <tr id="d<?php echo $clients->id;?>">
+                    <td>
+                    <?php if($clients->level == "admin"){ ?>
+                    <img src="<?php echo $this->baseUrl();?>img/icons2/administrator.png" width="16" />
+                    <?php
+					 } else{ 
+					?>
+                    <img src="<?php echo $this->baseUrl();?>img/icons/user.png" />
+                    <?php
+					} ?>
+                    </td>
+                    <td> <a   class="popHover"  data-content="<?php echo $clients->notes;?> &nbsp;"  href="javascript:;" data-original-title="User's Notes" ><?php echo $clients->email;?></a> </td>
+                    <td> <?php echo $clients->fullName;?> </td>
+                    
+                    
+                    
+                    <td>
+                    
+                    <?php
+				  if($clients->level != "admin"){ 
+					$pRes = $pObj->items($clients->id,"user_ID"); 
+					$countV = count($pRes);
+					?>
+<div class="btn-group"><span class="btn btn-info" ><strong><?php echo $countV;?></strong> Attached </span><a class="btn btn-info dropdown-toggle" href="javascript:;" data-toggle="dropdown"><span class="caret"></span></a>
+              <ul class="dropdown-menu">                    
+                    <?php
+					if(count($pRes) >0){
+					foreach($pRes as $pl){
+						$projectRes = $proObj->getById($pl->project_ID);
+					?> 
+                    
+                <li> <a   href="javascript:;"> <i class="icon-tag"></i> <?php echo $projectRes->projectName;?></a> </li> 
+              
+ 
+                    <?php 
+					}
+					echo ' <li class="divider"></li>';
+					} ?>
+                    
+                      
+               
+<li><a rel="#overlay" href="<?php echo $this->baseUrl();?>manage/clients/task/attach/t/<?php echo $clients->id;?>"><i class="icon-edit"></i> Attach / Detach Project </a></li>
+
+              </ul>
+            </div>
+                     <?php } else{ echo "--------------------";} ?>
+                    </td> 
+                    
+                    
+                    
+                     
+                    <td style="font-size:11px;" ><?php echo $this->dateFormat($clients->dateCreated);?></td>
+                    <td  style="font-size:11px;" ><?php if($clients->lastLogin != "0000-00-00 00:00:00"){echo $this->dateFormat($clients->lastLogin);}?></td>
+                    <td>
+                    <?php  if($clients->level != "admin"){  ?>
+                    <a onclick="rundel<?php echo $clients->id;?>();" href="#!" ><img src="<?php echo $this->baseUrl();?>img/icons/close.png" title="Delete" /></a>
+                    
+                     <script>
+				 function rundel<?php echo $clients->id;?>(){ var c = confirm("Are you sure you want to delete this client."); if(c){<?php echo $this->aj("d".$clients->id,$this->baseUrl().'manage/clients/task/del',"f".$clients->id,"");?>}}
+				 </script>
+                  <form style="display:none;" name="f<?php echo $clients->id;?>" id="f<?php echo $clients->id;?>" action="">
+                    <input type="hidden" value="<?php echo $clients->id;?>" id="target-id" name="target-id" /> 
+                    </form>
+                   <!-- &nbsp;
+                   <a href=""><img src="<?php echo $this->baseUrl();?>img/icons/upload2.png" title="Make Admin" /></a>-->
+                    
+                    <?php } ?>
+                    
+                    &nbsp;
+                   <a href="<?php echo $this->baseUrl();?>reviews/read/g/client/t/<?php echo $clients->id;?>" rel="#overlay"><img src="<?php echo $this->baseUrl();?>img/icons/diary.png" title="Read Comments and Reviews" /></a>
+                    </td>
+                    </tr>
+                    
+                    <?php
+					}
+				  }
+              
+              ?>
+              
+              
+              
+              
+              
+              </tbody>
+               
+            </table>
+            
+            
+            
+            
+            
+             
+            
+            
+            
+            
+          </div>
+          
+          <?php
+ }
+ ?>
+          
+          </section>
+        </div>
+        </div>

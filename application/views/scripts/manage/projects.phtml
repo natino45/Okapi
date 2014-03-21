@@ -1,0 +1,239 @@
+<div class="row-fluid">
+<div class="span12">
+ <section class="okapi-widget">
+ 
+ <?php
+ switch($this->dis){
+	 case "attach":
+			?>
+<div class="okapi-widget-title"><img src="<?php echo $this->baseUrl();?>img/icons/add.png" class="okapi-widget-icon"><span>Attach Clients To Project: <strong style="color:#06F; font-size:10px;"> <?php echo $this->projectName;?></strong></span></div><div class="okapi-widget-content okapi-form-freeSpace" id="dis1">
+<form name="clientAttach" id="clientAttach" method="post" action="#" onsubmit="<?php echo $this->aj('disatt',$this->baseUrl().'auth/in','clientAttach');?>" >
+            <?php
+			$attCheckObj = new Application_Model_DbTable_ProjectClients;
+	 foreach($this->clients as $c){
+		  $chk = $attCheckObj->check($c->id, $this->projectID);
+		 ?>
+         <div class="control-group"> 
+              <div class="controls well">
+                <label class="checkbox">
+                  <input id="p<?php echo $c->id;?>" class="s" <?php if($chk) echo 'checked'; ?> type="checkbox" name="itemid[]" value="<?php echo $c->id;?>"> <?php echo $c->fullName;?>  &rArr; <?php echo $c->email;?> </label>
+              </div>
+            </div>
+
+         <?php
+		 }
+	 ?>
+     <input type="hidden" name="target" value="cattach" />
+     <input type="hidden" value="<?php echo $this->projectID;?>" name="pid" />
+     <input type="hidden" id="selectedOptions" value="" name="selectedOptions" />
+     <input type="submit" value="Submit Clients" class="btn" />
+     </form>
+     <div id="disatt"></div>
+     </div>
+      <script>
+	     function showValues() {
+      var str = $(".s:checkbox").serialize();
+	  str = str.replace(/itemid%5B%5D=/g,',')
+	  str = str.replace(/&/g,'');
+      $("#selectedOptions").val(str);
+    }
+    $(".s:checkbox").click(showValues); 
+     </script>
+     <?php
+	 break;
+	 
+	 
+	 
+	 
+	 
+	 case "del":
+	 ob_clean();
+	 echo '
+					<td colspan="20">
+					<div class="alert alert-success">
+<img src="'.$this->baseUrl().'img/icons2/checkmark2.png" width="20" />
+<strong>Project  Successfully Removed!</strong> </div>
+					</td>
+					'; 
+					exit;
+	 break;
+	 
+	 
+	 case "new":
+	 ?>
+	  
+<div class="okapi-widget-title"><img src="<?php echo $this->baseUrl();?>img/icons/add.png" class="okapi-widget-icon"><span>Add New Project</span></div>
+          
+             
+            <div class="okapi-widget-content okapi-form-freeSpace" id="dis1">
+  <form class="form-horizontal" id="credInfo" name="credInfo" action="#" onsubmit="<?php echo $this->aj('dis1',$this->baseUrl().'auth/in','credInfo');?>" method="post">
+          <input type="hidden" name="target" value="npro" />
+            <fieldset> 
+               
+              
+                <div class="control-group">
+              <label class="control-label" >Project Title:</label>
+              <div class="controls">
+                <input class="span12" type="text" name="pro-name" id="pro-name"  required="yes"   placeholder="" />
+              </div>
+            </div>
+ 
+                <div class="control-group">
+              <label class="control-label" >Folder Name / Project Host Link:</label>
+              <div class="controls">
+                <input class="span12" type="text" name="folder-name" id="folder-name"  required="yes"   placeholder="" />
+              </div>
+            </div>
+  
+ 
+                <div class="control-group">
+              <label class="control-label" >Start Up File:</label>
+              <div class="controls">
+                <input class="span12" type="text" name="bLoader" id="bLoader"     placeholder="" />
+              </div>
+            </div>
+  
+ 
+               <p>
+            <label class="3" for="notes">Client Details:</label> 
+            <textarea id="textarea" name="client-details" class="span12" rows="6"> </textarea>
+          </p>
+              
+              <div class="okapi-alert-button" >
+                <button  class="btn btn-info span5" >Submit</button>
+              </div>
+               
+                
+            </fieldset>
+          </form>
+          </div> 
+	 
+	 <?php
+	 break;
+	 default:
+ ?>
+          <div class="okapi-widget-title"><img src="<?php echo $this->baseUrl();?>img/icons/folder.png" class="okapi-widget-icon"><span>Projects</span>         
+          <div class="span2" style="float:right; margin-top:5px;"><a class="btn btn-medium btn-success span12" href="<?php echo $this->baseUrl();?>manage/projects/task/new" rel="#overlay"><i class="icon-plus"></i> Add New Project</a> </div>
+            </div>
+          <div class="okapi-widget-content">
+          
+          
+          
+          
+            <table class="table datatable table-striped table-bordered">
+              <colgroup>
+              <col class="okapi-col-1">
+              <col class="okapi-col-0">
+              <col class="okapi-col-1">
+              </colgroup>
+              <thead>
+                <tr>
+                <th></th>
+                  <th>Project Title</th>
+                  <th>Folder / StartUp File</th> 
+                  <th>Clients</th>
+                  <th>Uploaded On</th>
+                  <th>Last Updated</th>
+                  <th>Options</th>
+                </tr>
+              </thead>
+              <tbody>
+              
+              <?php
+			  if($this->projectList){
+				  $pObj = new Application_Model_Project_GetAttached;
+				  $proObj = new Application_Model_DbTable_Users;
+				foreach($this->projectList as $project){
+					?>
+                    
+                    <tr id="d<?php echo $project->id;?>">
+                    <td><img src="<?php echo $this->baseUrl();?>img/icons/file.png" /></td>
+                    <td><a href="<?php echo $this->baseUrl()."preview/project/v/".$project->id;?>"><?php echo $project->projectName;?></a></td>
+                    <td><?php echo '<strong style="color:#009900">'.$project->folderName ."</strong> / ".$project->bootLoader;?></td> 
+                    
+                    
+                    
+                    
+                    <td> 
+                    
+                    <?php
+					$pRes = $pObj->items($project->id,"project_ID"); 
+					$countV = count($pRes);
+					?>
+<div class="btn-group"><a class="btn btn-info" href="#"><strong><?php echo $countV;?></strong> Attached </a><a class="btn btn-info dropdown-toggle" href="#" data-toggle="dropdown"><span class="caret"></span></a>
+              <ul class="dropdown-menu">                    
+                    <?php
+					if(count($pRes) >0){
+					foreach($pRes as $pl){
+						$c = $proObj->getUser($pl->user_ID);
+					?> 
+                    
+        <li> <a   href="javascript:;" > <i class="icon-user"></i> <?php echo $c->fullName;?> -- <?php echo $c->email;?></a> </li> 
+              
+ 
+                    <?php 
+					}
+					echo ' <li class="divider"></li>';
+					} ?>
+                    
+                       
+<li><a rel="#overlay" href="<?php echo $this->baseUrl();?>manage/projects/task/attach/t/<?php echo $project->id ;?>"><i class="icon-edit"></i> Attach / Detach Client </a></li>
+
+              </ul>
+            </div>
+                     
+                    </td>
+                    
+                    
+                    
+                    
+                    <td ><?php echo $this->dateFormat($project->dateCreated);?></td>
+                    <td ><?php //$stat = @stat('../projects/'.$project->folderName);
+				  echo $this->dateFormat(@$this->lastMod('../projects/'.$project->folderName)); //$stat['mtime']);
+				   ?></td>
+                    <td>
+                     <a onclick="rundel<?php echo $project->id;?>();" href="#!" ><img src="<?php echo $this->baseUrl();?>img/icons/close.png" title="Delete" /></a>
+                    
+                     <script>
+				 function rundel<?php echo $project->id;?>(){ var c = confirm("Are you sure you want to delete this project."); if(c){<?php echo $this->aj("d".$project->id,$this->baseUrl().'manage/projects/task/del',"f".$project->id,"");?>}}
+				 </script>
+                 <form style="display:none;" name="f<?php echo $project->id;?>" id="f<?php echo $project->id;?>" action="">
+                    <input type="hidden" value="<?php echo $project->id;?>" id="target-id" name="target-id" /> 
+                    </form>
+                    
+                    &nbsp;
+                   <a href="<?php echo $this->baseUrl();?>reviews/read/g/project/t/<?php echo $project->id;?>" rel="#overlay"><img src="<?php echo $this->baseUrl();?>img/icons/diary.png" title="Read Comments and Reviews" /></a>
+                    </td>
+                    </tr> 
+                    <?php
+					}
+				  }
+              
+              ?>
+              
+              
+              
+              </tbody>
+               
+            </table>
+            
+            
+            
+            
+           
+ 
+             
+            
+            
+            
+            
+          </div>
+          
+          <?php
+ }
+ ?>
+          
+          <!--<div class="well"><a id="popHover" class="btn btn-danger" data-content="And here's some amazing content. It's very engaging. right?" rel="popover" href="#" data-original-title="Hover popup"> hover for popover </a></div>-->
+          </section>
+        </div>
+        </div>
